@@ -11,11 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $tickets =  Ticket::where('user_id', Auth::id())->get();
+        $thickets_count = $tickets->count();
+        
         return view('components.content',[
             'tickets' => $tickets,
+            'count' => $thickets_count
             
         ]);
         
@@ -33,13 +40,13 @@ class UserController extends Controller
                     $newTicket->update([
                         'status' => 'active',
                         'user_id' => Auth::id(),
-                        'active_date' => Carbon::now()
+                        'active_date' => date('Y-m-d H:i:s')
                     ]);
                     
                     
+                    event( new EventsTicket($newTicket->id));
                 }
                 // return $newTicket->id;
-                event( new EventsTicket($newTicket->id));
                 return redirect()->route('users.index');
     }
 }

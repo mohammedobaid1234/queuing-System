@@ -77,6 +77,7 @@ class TicketController extends Controller
         }
         return [];
     }
+    
     public function serviceCookie()
     {
         // return $name;

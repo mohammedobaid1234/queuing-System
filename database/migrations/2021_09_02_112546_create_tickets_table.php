@@ -16,7 +16,7 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->enum('status', ['active', 'pending', 'end'])->default('pending')->nullable();
-            $table->time('expected_time')->nullable();
+            $table->timestamp('expected_time')->nullable();
             $table->timestamps();
         });
     }
